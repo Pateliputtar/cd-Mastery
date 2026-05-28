@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Computational Design Mastery — Architect's Path</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0e0f;--bg2:#111518;--bg3:#181d20;--bg4:#1e2428;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);
+  --text:#e2e8e2;--muted:#6a7a6a;--muted2:#8a9a8a;
+  --accent:#8ecf6a;--accent2:#5aad34;--adim:rgba(142,207,106,0.1);
+  --p1:#8ecf6a;--p2:#5aadcf;--p3:#e8a84a;--p4:#cf6a8e;
+  --p5:#8a6acf;--p6:#6acf8e;--p7:#cf8e6a;
+  --mono:'Space Mono',monospace;
+  --disp:'Syne',sans-serif;
+  --body:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:14px;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(142,207,106,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(142,207,106,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,14,15,0.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;padding:0 24px;gap:24px}
+.nav-logo{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.1em;white-space:nowrap;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{font-family:var(--mono);font-size:9px;color:var(--muted);text-decoration:none;padding:4px 9px;border-radius:3px;white-space:nowrap;transition:all .15s;letter-spacing:.05em}
+.nav-link:hover{color:var(--accent);background:var(--adim)}
+.nprog{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nprog-lbl{font-family:var(--mono);font-size:9px;color:var(--muted)}
+.nprog-bar{width:72px;height:2px;background:var(--bg3);border-radius:1px;overflow:hidden}
+.nprog-fill{height:100%;background:var(--accent);border-radius:1px;transition:width .5s}
+.nprog-pct{font-family:var(--mono);font-size:9px;color:var(--accent);min-width:26px}
+
+/* HERO */
+main{position:relative;z-index:1;padding-top:52px}
+.hero{min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;padding:56px 44px 48px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 60% at 85% 50%,rgba(142,207,106,0.06) 0%,transparent 70%),radial-gradient(ellipse 40% 70% at 5% 90%,rgba(90,173,207,0.04) 0%,transparent 60%)}
+.hero-tag{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';display:block;width:20px;height:1px;background:var(--accent)}
+.hero h1{font-family:var(--disp);font-size:clamp(28px,4.5vw,58px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:16px;max-width:660px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:14px;color:var(--muted2);max-width:460px;margin-bottom:28px}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap}
+.hs-num{font-family:var(--disp);font-size:26px;font-weight:700;line-height:1}
+.hs-num span{color:var(--accent)}
+.hs-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;margin-top:3px}
+.hero-deco{position:absolute;top:36px;right:44px;width:180px;height:180px;border:1px solid var(--border2);border-radius:2px;opacity:.35}
+.hero-deco::before{content:'';position:absolute;top:18px;left:18px;right:18px;bottom:18px;border:1px solid var(--border);border-radius:2px}
+.hero-deco::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:5px;height:5px;background:var(--accent);border-radius:50%}
+
+/* SECTIONS */
+.section{padding:40px 44px;border-bottom:1px solid var(--border)}
+.sec-tag{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.sec-tag::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* OVERVIEW */
+.ov-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.ov-cell{border:1px solid var(--border2);border-radius:5px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.ov-cell::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:currentColor;opacity:.45}
+.ov-cell:hover{background:rgba(255,255,255,0.03)}
+.ov-n{font-family:var(--mono);font-size:8px;letter-spacing:.08em;opacity:.7;margin-bottom:3px}
+.ov-t{font-family:var(--disp);font-size:10px;font-weight:700;line-height:1.3;margin-bottom:5px}
+.ov-w{font-family:var(--mono);font-size:8px;opacity:.5}
+.ov-pb{width:100%;height:2px;background:rgba(255,255,255,0.07);border-radius:1px;margin-top:8px;overflow:hidden}
+.ov-pbar{height:100%;border-radius:1px;background:currentColor;transition:width .5s}
+
+/* PHASE BLOCKS */
+.phases{display:flex;flex-direction:column;gap:2px}
+.pb{border:1px solid var(--border);border-radius:7px;overflow:hidden;transition:border-color .2s}
+.pb:hover{border-color:var(--border2)}
+.pb.open{border-color:rgba(255,255,255,0.13)}
+.pb-head{display:flex;align-items:center;gap:14px;padding:16px 22px;cursor:pointer;user-select:none;background:var(--bg2);transition:background .15s}
+.pb-head:hover{background:var(--bg3)}
+.pb-num{font-family:var(--mono);font-size:9px;letter-spacing:.08em;padding:3px 8px;border-radius:3px;background:rgba(255,255,255,0.05);flex-shrink:0}
+.pb-info{flex:1}
+.pb-title{font-family:var(--disp);font-size:15px;font-weight:700;line-height:1.2}
+.pb-desc{font-family:var(--body);font-size:11px;color:var(--muted2);margin-top:2px}
+.pb-meta{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.pb-wk{font-family:var(--mono);font-size:9px;color:var(--muted)}
+.pb-cnt{font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,0.05)}
+.pb-chv{width:14px;height:14px;color:var(--muted);transition:transform .25s;flex-shrink:0}
+.pb.open .pb-chv{transform:rotate(180deg)}
+.pb-body{display:none;background:var(--bg);border-top:1px solid var(--border)}
+.pb.open .pb-body{display:block}
+
+/* WEEK ROWS */
+.wr{border-bottom:1px solid var(--border);transition:background .12s}
+.wr:last-child{border-bottom:none}
+.wr:hover{background:rgba(255,255,255,0.015)}
+.wr.done{opacity:.5}
+.wr-top{display:grid;grid-template-columns:96px 1fr 24px;gap:14px;align-items:start;padding:14px 22px 10px}
+.wr-lbl{font-family:var(--mono);font-size:10px;color:var(--muted);padding-top:2px;letter-spacing:.04em}
+.wr-main{font-size:13px;color:var(--text);line-height:1.6;margin-bottom:6px}
+.wr-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px}
+.wt{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;background:rgba(255,255,255,0.05);color:var(--muted2);letter-spacing:.04em}
+.wr-time{font-family:var(--mono);font-size:8px;color:var(--accent);opacity:.65;letter-spacing:.04em}
+.wr-chk{padding-top:2px}
+.wchk{width:20px;height:20px;border:1px solid var(--border2);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;outline:none;transition:all .15s;flex-shrink:0}
+.wchk:hover{border-color:var(--accent);background:var(--adim)}
+.wchk.chkd{background:var(--accent);border-color:var(--accent)}
+.wchk.chkd::after{content:'';width:9px;height:5px;border-left:2px solid #0b0e0f;border-bottom:2px solid #0b0e0f;transform:rotate(-45deg) translateY(-1px)}
+
+/* PER-WEEK RESOURCES */
+.wr-res{padding:10px 22px 14px 112px;display:flex;flex-wrap:wrap;gap:6px}
+.rchip{font-family:var(--mono);font-size:9px;color:var(--muted2);padding:3px 9px;border:1px solid var(--border2);border-radius:3px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:all .12s;letter-spacing:.03em}
+.rchip:hover{color:var(--accent);border-color:var(--accent);background:var(--adim)}
+.rchip-yt{border-color:rgba(255,70,70,0.25);color:#ff9090}
+.rchip-yt:hover{border-color:#ff4646;color:#ff4646;background:rgba(255,70,70,0.07)}
+.rchip-pdf{border-color:rgba(74,144,226,0.25);color:#7ab4ff}
+.rchip-pdf:hover{border-color:#4a90e2;color:#4a90e2;background:rgba(74,144,226,0.07)}
+.rchip-uni{border-color:rgba(232,168,74,0.25);color:#f0c070}
+.rchip-uni:hover{border-color:var(--p3);color:var(--p3);background:rgba(232,168,74,0.07)}
+.rchip-web{border-color:var(--border2);color:var(--muted2)}
+.r-icon{font-size:10px;line-height:1}
+
+/* PHASE NOTE */
+.pnote{padding:14px 22px 16px;background:rgba(255,255,255,0.012);border-top:1px solid var(--border)}
+.pnote-lbl{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+.pnote-ta{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:9px 12px;color:var(--text);font-family:var(--body);font-size:12px;resize:vertical;min-height:64px;outline:none;transition:border-color .15s}
+.pnote-ta:focus{border-color:rgba(142,207,106,0.35)}
+.pnote-ta::placeholder{color:var(--muted)}
+
+/* URBAN INTRO */
+.urban-banner{padding:20px 22px;background:rgba(207,142,106,0.04);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.ubc{border:1px solid rgba(207,142,106,0.15);border-radius:5px;padding:12px 14px}
+.ubc-icon{font-size:18px;margin-bottom:6px}
+.ubc-title{font-family:var(--disp);font-size:12px;font-weight:600;margin-bottom:3px;color:var(--p7)}
+.ubc-text{font-size:11px;color:var(--muted2);line-height:1.5}
+
+/* TIMER */
+.timer{position:fixed;bottom:20px;right:20px;z-index:90;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:14px 18px;display:flex;flex-direction:column;align-items:center;gap:9px;box-shadow:0 8px 32px rgba(0,0,0,.5);min-width:148px}
+.t-lbl{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.t-ring{width:56px;height:56px;position:relative}
+.t-ring svg{transform:rotate(-90deg)}
+.t-ring-bg{fill:none;stroke:var(--border2);stroke-width:3}
+.t-ring-fill{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:151;transition:stroke-dashoffset 1s linear}
+.t-ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent)}
+.t-target{font-family:var(--mono);font-size:8px;color:var(--muted)}
+.t-btns{display:flex;gap:5px}
+.t-btn{font-family:var(--mono);font-size:9px;padding:4px 10px;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--muted2);cursor:pointer;transition:all .12s}
+.t-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--adim)}
+.t-btn.prim{background:var(--accent);color:#0b0e0f;border-color:var(--accent)}
+.t-btn.prim:hover{background:var(--accent2);border-color:var(--accent2)}
+
+/* FOOTER */
+footer{padding:28px 44px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:space-between;align-items:center}
+.ft-l{font-family:var(--mono);font-size:9px;color:var(--muted);line-height:1.7}
+.ft-l span{color:var(--accent)}
+.ft-r{font-family:var(--mono);font-size:9px;color:var(--muted);text-align:right}
+
+.fin{opacity:0;transform:translateY(18px);transition:opacity .4s,transform .4s}
+.fin.vis{opacity:1;transform:none}
+
+@media(max-width:768px){
+  .hero{padding:36px 18px 36px}
+  .hero-deco{display:none}
+  .section{padding:28px 18px}
+  .ov-grid{grid-template-columns:repeat(4,1fr)}
+  .wr-top{grid-template-columns:72px 1fr 22px;gap:10px;padding:12px 16px 8px}
+  .wr-res{padding:8px 16px 12px 86px}
+  .urban-banner{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:8px;text-align:center}
+  .timer{bottom:10px;right:10px;padding:10px 14px;min-width:128px}
+}
+</style>
+
+<!-- SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* ── AUTH SETUP BANNER ── */
+.setup-banner{display:none;position:fixed;top:52px;left:0;right:0;z-index:200;background:#1a1200;border-bottom:1px solid rgba(232,168,74,.35);padding:10px 24px;font-family:var(--mono);font-size:10px;color:#e8a84a;align-items:center;gap:12px}
+.setup-banner.show{display:flex}
+.setup-banner a{color:#e8a84a;opacity:.7;text-decoration:underline}
+
+/* ── AUTH MODAL ── */
+.auth-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center}
+.auth-overlay.show{display:flex}
+.auth-box{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:32px 36px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:18px}
+.auth-logo{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.12em}
+.auth-title{font-family:var(--disp);font-size:22px;font-weight:700;line-height:1.2}
+.auth-subtitle{font-size:12px;color:var(--muted2);margin-top:-10px}
+.auth-tabs{display:flex;gap:2px;background:var(--bg3);border-radius:5px;padding:3px}
+.auth-tab{flex:1;font-family:var(--mono);font-size:9px;padding:6px;border-radius:3px;border:none;background:transparent;color:var(--muted);cursor:pointer;letter-spacing:.05em;transition:all .15s}
+.auth-tab.active{background:var(--bg2);color:var(--text)}
+.auth-field{display:flex;flex-direction:column;gap:6px}
+.auth-label{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.auth-input{background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:9px 12px;color:var(--text);font-family:var(--body);font-size:13px;outline:none;transition:border-color .15s;width:100%}
+.auth-input:focus{border-color:rgba(142,207,106,.4)}
+.auth-input::placeholder{color:var(--muted)}
+.auth-btn{background:var(--accent);color:#0b0e0f;border:none;border-radius:5px;padding:11px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:background .15s;width:100%}
+.auth-btn:hover{background:var(--accent2)}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-or{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9px;color:var(--muted)}
+.auth-or::before,.auth-or::after{content:'';flex:1;height:1px;background:var(--border)}
+.auth-magic-btn{background:transparent;border:1px solid var(--border2);border-radius:5px;padding:10px;font-family:var(--mono);font-size:10px;color:var(--muted2);cursor:pointer;transition:all .15s;width:100%;letter-spacing:.04em}
+.auth-magic-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--adim)}
+.auth-msg{font-family:var(--mono);font-size:10px;padding:8px 12px;border-radius:4px;display:none}
+.auth-msg.err{background:rgba(207,106,106,.1);border:1px solid rgba(207,106,106,.25);color:#cf8e8e;display:block}
+.auth-msg.ok{background:var(--adim);border:1px solid rgba(142,207,106,.25);color:var(--accent);display:block}
+.auth-skip{font-family:var(--mono);font-size:9px;color:var(--muted);text-align:center;cursor:pointer;text-decoration:underline;transition:color .15s}
+.auth-skip:hover{color:var(--muted2)}
+
+/* ── NAV AUTH ── */
+.nav-auth{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:8px}
+.nav-user{font-family:var(--mono);font-size:9px;color:var(--muted);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-signout{font-family:var(--mono);font-size:9px;padding:3px 9px;border:1px solid var(--border2);border-radius:3px;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;letter-spacing:.04em}
+.nav-signout:hover{color:var(--p4);border-color:var(--p4)}
+.nav-signin-btn{font-family:var(--mono);font-size:9px;padding:3px 10px;border-radius:3px;background:var(--accent);color:#0b0e0f;border:none;cursor:pointer;font-weight:700;letter-spacing:.04em;transition:background .15s}
+.nav-signin-btn:hover{background:var(--accent2)}
+.nav-sync{font-family:var(--mono);font-size:9px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
+.sync-dot.ok{background:var(--accent)}
+.sync-dot.saving{background:var(--p3);animation:pulse .8s infinite}
+.sync-dot.err{background:var(--p4)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+</style>
+</head>
+<body>
+
+<!-- SETUP BANNER (shown when keys not configured) -->
+<div class="setup-banner" id="setupBanner">
+  ⚠ Supabase not configured — progress saves locally only.
+  <a href="#" onclick="document.getElementById('setupBanner').classList.remove('show');return false">Dismiss</a>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <div class="auth-logo">// CD.MASTERY</div>
+    <div>
+      <div class="auth-title">Sign in to sync<br>your progress</div>
+      <div class="auth-subtitle">Your checkboxes and notes save across all devices.</div>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabSign" onclick="switchTab('signin')">Sign In</button>
+      <button class="auth-tab" id="tabReg" onclick="switchTab('signup')">Register</button>
+    </div>
+    <div id="authMsg" class="auth-msg"></div>
+    <div class="auth-field">
+      <label class="auth-label">Email</label>
+      <input class="auth-input" type="email" id="authEmail" placeholder="you@email.com" autocomplete="email"/>
+    </div>
+    <div class="auth-field" id="passField">
+      <label class="auth-label">Password</label>
+      <input class="auth-input" type="password" id="authPass" placeholder="Min. 6 characters" autocomplete="current-password"/>
+    </div>
+    <button class="auth-btn" id="authSubmit" onclick="authAction()">Sign In</button>
+    <div class="auth-or">or</div>
+    <button class="auth-magic-btn" onclick="sendMagicLink()">✉ Send magic link (no password)</button>
+    <div class="auth-skip" onclick="skipAuth()">Continue without signing in →</div>
+  </div>
+</div>
+
+
+<nav>
+  <div class="nav-logo">// CD.MASTERY</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#overview">Overview</a>
+    <a class="nav-link" href="#ph1">Ph.1 — Rhino</a>
+    <a class="nav-link" href="#ph2">Ph.2 — GH Core</a>
+    <a class="nav-link" href="#ph3">Ph.3 — Data Trees</a>
+    <a class="nav-link" href="#ph4">Ph.4 — Plugins+Env</a>
+    <a class="nav-link" href="#ph5">Ph.5 — Revit+Projects</a>
+    <a class="nav-link" href="#ph6">Ph.6 — Portfolio</a>
+    <a class="nav-link" href="#ph7" style="color:var(--p7)">Ph.7 — Urban↑</a>
+  </div>
+  <div class="nprog">
+    <span class="nprog-lbl">Progress</span>
+    <div class="nprog-bar"><div class="nprog-fill" id="npf" style="width:0%"></div></div>
+    <span class="nprog-pct" id="npp">0%</span>
+  </div>
+
+  <div class="nav-auth" id="navAuth">
+    <button class="nav-signin-btn" id="navSignInBtn" onclick="showAuth()">Sign In</button>
+  </div>
+
+</nav>
+
+<main>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-deco"></div>
+  <div class="hero-tag">Architect's Personal Learning System — Free Resources Only</div>
+  <h1>Master <em>Computational</em><br>Design, Step by Step</h1>
+  <p class="hero-sub">26 weeks of daily 15–30 min lessons. Gediminas, TU Delft, David Rutten, McNeel, Ladybug — all free. Phase 7 extends into Grasshopper for Urban Design.</p>
+  <div class="hero-stats">
+    <div><div class="hs-num">26<span>wk</span></div><div class="hs-lbl">Duration Ph.1–6</div></div>
+    <div><div class="hs-num">7</div><div class="hs-lbl">Phases</div></div>
+    <div><div class="hs-num" id="hpct">0<span>%</span></div><div class="hs-lbl">Completed</div></div>
+    <div><div class="hs-num">100<span>%</span></div><div class="hs-lbl">Free Resources</div></div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="section fin" id="overview">
+  <div class="sec-tag">Phase Map — click to jump</div>
+  <div class="ov-grid">
+    <div class="ov-cell c1" onclick="goTo('ph1')" style="border-color:rgba(142,207,106,.25);color:var(--p1)"><div class="ov-n">01</div><div class="ov-t">Rhino + GH Intro</div><div class="ov-w">Wks 1–4</div><div class="ov-pb"><div class="ov-pbar" id="ob1"></div></div></div>
+    <div class="ov-cell c2" onclick="goTo('ph2')" style="border-color:rgba(90,173,207,.25);color:var(--p2)"><div class="ov-n">02</div><div class="ov-t">GH Core Logic</div><div class="ov-w">Wks 5–8</div><div class="ov-pb"><div class="ov-pbar" id="ob2"></div></div></div>
+    <div class="ov-cell c3" onclick="goTo('ph3')" style="border-color:rgba(232,168,74,.25);color:var(--p3)"><div class="ov-n">03</div><div class="ov-t">Data Trees</div><div class="ov-w">Wks 9–13</div><div class="ov-pb"><div class="ov-pbar" id="ob3"></div></div></div>
+    <div class="ov-cell c4" onclick="goTo('ph4')" style="border-color:rgba(207,106,142,.25);color:var(--p4)"><div class="ov-n">04</div><div class="ov-t">Plugins + Env</div><div class="ov-w">Wks 14–17</div><div class="ov-pb"><div class="ov-pbar" id="ob4"></div></div></div>
+    <div class="ov-cell c5" onclick="goTo('ph5')" style="border-color:rgba(138,106,207,.25);color:var(--p5)"><div class="ov-n">05</div><div class="ov-t">Revit + Projects</div><div class="ov-w">Wks 18–21</div><div class="ov-pb"><div class="ov-pbar" id="ob5"></div></div></div>
+    <div class="ov-cell c6" onclick="goTo('ph6')" style="border-color:rgba(106,207,142,.25);color:var(--p6)"><div class="ov-n">06</div><div class="ov-t">Portfolio</div><div class="ov-w">Wks 22–26</div><div class="ov-pb"><div class="ov-pbar" id="ob6"></div></div></div>
+    <div class="ov-cell c7" onclick="goTo('ph7')" style="border-color:rgba(207,142,106,.35);color:var(--p7)"><div class="ov-n">07</div><div class="ov-t">Urban Design ↑</div><div class="ov-w">Advanced +12wk</div><div class="ov-pb"><div class="ov-pbar" id="ob7"></div></div></div>
+  </div>
+</section>
+
+<!-- PHASES -->
+<section class="section fin" id="phasesSection">
+<div class="sec-tag">Weekly Curriculum — resources listed per week — check off as you complete</div>
+<div class="phases">
+
+<!-- ══════════ PHASE 1 ══════════ -->
+<div class="pb" id="ph1">
+  <div class="pb-head" onclick="tog(this)">
+    <div class="pb-num" style="color:var(--p1)">01</div>
+    <div class="pb-info"><div class="pb-title">Rhino Basics + First Look at Grasshopper</div><div class="pb-desc">Get comfortable before touching GH — navigation, curves, solids, layers</div></div>
+    <div class="pb-meta"><div class="pb-wk">Weeks 1–4</div><div class="pb-cnt" style="color:var(--p1)" id="cc1">0/4</div><svg class="pb-chv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="pb-body">
+
+    <div class="wr" id="wr1_1"><div class="wr-top"><div class="wr-lbl">Week 01</div><div><div class="wr-main">What is computational design? Understand the parametric mindset before any software. Install Rhino (90-day free trial from rhino3d.com). Explore the viewport: navigation, display modes, command line. Watch the intro video by Gediminas to understand what you're aiming toward.</div><div class="wr-tags"><span class="wt">Concept</span><span class="wt">Rhino Install</span><span class="wt">Navigation</span></div><div class="wr-time">⏱ 15 min/day — no output needed, just explore</div></div><div class="wr-chk"><button class="wchk" onclick="chk('1_1')" id="chk1_1"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=b0elmzjWlE8" target="_blank"><span class="r-icon">▶</span> Gediminas — GH Beginners Full 2024 (watch first 10 min for overview)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=7i0GcHJGjQA" target="_blank"><span class="r-icon">▶</span> How To Rhino — Rhino UI Complete Walkthrough</a>
+      <a class="rchip rchip-web" href="https://www.rhino3d.com/download/rhino/evaluation" target="_blank">🦏 Rhino Free 90-day Trial</a>
+      <a class="rchip rchip-pdf" href="https://docs.mcneel.com/rhino/7/usersguide/en-us/index.htm" target="_blank">📄 Rhino Official User Guide</a>
+    </div></div>
+
+    <div class="wr" id="wr1_2"><div class="wr-top"><div class="wr-lbl">Week 02</div><div><div class="wr-main">Rhino 2D fundamentals: points, lines, polylines, arcs, circles. Practice drawing a building floor plan from scratch. Master layers, object properties, and snaps (Osnap toolbar). Export as DWG — verify it opens in AutoCAD/DraftSight.</div><div class="wr-tags"><span class="wt">Curves</span><span class="wt">Layers</span><span class="wt">DWG Export</span></div><div class="wr-time">⏱ 20 min/day — output: 2D floor plan in Rhino</div></div><div class="wr-chk"><button class="wchk" onclick="chk('1_2')" id="chk1_2"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=vS7P0aJFrNQ" target="_blank"><span class="r-icon">▶</span> How To Rhino — Curves & Lines Basics</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=qNyHoKGBpyA" target="_blank"><span class="r-icon">▶</span> Simply Rhino — Layers & Object Properties</a>
+      <a class="rchip rchip-web" href="https://www.rhino3d.com/learn/?query=beginner" target="_blank">🦏 McNeel Level 1 Training Exercises</a>
+    </div></div>
+
+    <div class="wr" id="wr1_3"><div class="wr-top"><div class="wr-lbl">Week 03</div><div><div class="wr-main">Rhino 3D: extrude, boolean union/difference, loft, sweep1/2, revolve. Build a simple building massing with windows cut out. Understand NURBS vs polysurface vs mesh. Render a quick viewport screenshot with Materials and Shadow mode.</div><div class="wr-tags"><span class="wt">Solids</span><span class="wt">Boolean</span><span class="wt">NURBS</span><span class="wt">Loft/Sweep</span></div><div class="wr-time">⏱ 25 min/day — output: 3D massing with openings</div></div><div class="wr-chk"><button class="wchk" onclick="chk('1_3')" id="chk1_3"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=L5bPTBpMhbY" target="_blank"><span class="r-icon">▶</span> How To Rhino — Extrude, Boolean, Solid Basics</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=oLzaYN6eMI4" target="_blank"><span class="r-icon">▶</span> Simply Rhino — Loft and Sweep Surfaces</a>
+      <a class="rchip rchip-pdf" href="https://docs.mcneel.com/rhino/7/training-level2/en-us/Rhino%207%20Level%202%20Training.pdf" target="_blank">📄 McNeel Level 2 Training PDF (Free)</a>
+    </div></div>
+
+    <div class="wr" id="wr1_4"><div class="wr-top"><div class="wr-lbl">Week 04</div><div><div class="wr-main">Open Grasshopper for the first time (type "Grasshopper" in Rhino command line). Explore the canvas, components, wires, and parameter types. Do NOT build anything yet. Watch David Rutten's official GH intro videos — he created Grasshopper. Read the first 20 pages of the GH Primer. Understand: what is a component, what is a wire, what is data?</div><div class="wr-tags"><span class="wt">GH Canvas</span><span class="wt">Components</span><span class="wt">Orientation</span></div><div class="wr-time">⏱ 15 min/day — reading + watching, no pressure to build</div></div><div class="wr-chk"><button class="wchk" onclick="chk('1_4')" id="chk1_4"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://vimeopro.com/rhino/grasshopper-getting-started-by-david-rutten" target="_blank"><span class="r-icon">▶</span> David Rutten — GH Getting Started Series (Vimeo, Official)</a>
+      <a class="rchip rchip-pdf" href="https://www.grasshopper3d.com/page/tutorials-1" target="_blank">📄 GH Primer PDF — Free Official Download</a>
+      <a class="rchip rchip-uni" href="https://interactivetextbooks.tudelft.nl/rhino-grasshopper/Grasshopper_Rhino_course/intro.html" target="_blank">🎓 TU Delft Open Textbook — GH Intro Chapter</a>
+      <a class="rchip rchip-uni" href="https://digipedia.tudelft.nl/software/grasshopper/" target="_blank">🎓 TU Delft DigiPedia — GH Resource Index</a>
+    </div></div>
+
+    <div class="pnote"><div class="pnote-lbl">Phase 1 Notes</div><textarea class="pnote-ta" id="note1" placeholder="Your Rhino impressions, commands you keep forgetting, questions..." onchange="saveNote(1,this.value)"></textarea></div>
+  </div>
+</div>
+
+<!-- ══════════ PHASE 2 ══════════ -->
+<div class="pb" id="ph2">
+  <div class="pb-head" onclick="tog(this)">
+    <div class="pb-num" style="color:var(--p2)">02</div>
+    <div class="pb-info"><div class="pb-title">Grasshopper Core Logic</div><div class="pb-desc">Sliders, geometry, lists — build your first real parametric definitions</div></div>
+    <div class="pb-meta"><div class="pb-wk">Weeks 5–8</div><div class="pb-cnt" style="color:var(--p2)" id="cc2">0/4</div><svg class="pb-chv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="pb-body">
+
+    <div class="wr" id="wr2_1"><div class="wr-top"><div class="wr-lbl">Week 05</div><div><div class="wr-main">GH interface: number sliders, integer sliders, panels, boolean toggles, md sliders. Build your first definition: parametric rectangle with width, depth, height on sliders. Extrude in GH. Right-click each component to preview/hide. Bake into Rhino. Follow Gediminas's 2024 full course — work through the first third.</div><div class="wr-tags"><span class="wt">Sliders</span><span class="wt">Extrude</span><span class="wt">Bake</span><span class="wt">First Definition</span></div><div class="wr-time">⏱ 20 min/day — output: your first parametric solid in GH</div></div><div class="wr-chk"><button class="wchk" onclick="chk('2_1')" id="chk2_1"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=b0elmzjWlE8" target="_blank"><span class="r-icon">▶</span> Gediminas — GH Beginners Full 2024 Course (core resource for Wks 5–8)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=zDDVeDldvaI" target="_blank"><span class="r-icon">▶</span> Parametric House — Intro to GH Components</a>
+      <a class="rchip rchip-uni" href="https://interactivetextbooks.tudelft.nl/rhino-grasshopper/Grasshopper_Rhino_course/1_Intro_lessons/index.html" target="_blank">🎓 TU Delft — Introductory Lessons (all free, interactive)</a>
+    </div></div>
+
+    <div class="wr" id="wr2_2"><div class="wr-top"><div class="wr-lbl">Week 06</div><div><div class="wr-main">Geometry components: Point, Line, Circle, Rectangle, Plane. Reference existing Rhino geometry into GH (Set One Point, Set One Curve). Build a parametric grid of points — use Series + construct point. Connect to a Polyline. Move, Scale, Rotate in GH. Understand "internalize" vs "reference."</div><div class="wr-tags"><span class="wt">Point Grid</span><span class="wt">Reference</span><span class="wt">Move/Rotate</span><span class="wt">Planes</span></div><div class="wr-time">⏱ 25 min/day — output: parametric point grid definition</div></div><div class="wr-chk"><button class="wchk" onclick="chk('2_2')" id="chk2_2"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=b0elmzjWlE8&t=1800" target="_blank"><span class="r-icon">▶</span> Gediminas 2024 GH Course — Geometry Section (continue from Wk 5)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=GXnqjn3FROY" target="_blank"><span class="r-icon">▶</span> Parametric House — GH Point Grid Tutorial</a>
+      <a class="rchip rchip-uni" href="https://interactivetextbooks.tudelft.nl/rhino-grasshopper/Grasshopper_Rhino_course/2_Knowledge_base/2_Geometry/index.html" target="_blank">🎓 TU Delft — Geometry Chapter (Knowledge Base)</a>
+    </div></div>
+
+    <div class="wr" id="wr2_3"><div class="wr-top"><div class="wr-lbl">Week 07</div><div><div class="wr-main">Data fundamentals: numbers vs integers vs text vs booleans in GH. List operations: List Item (index), List Length, Reverse List, Sort List, Cull Pattern, Dispatch. Build a series of 8 columns with mathematically varied heights. Use a Graph Mapper to control the profile. Label all components — this habit is essential.</div><div class="wr-tags"><span class="wt">Lists</span><span class="wt">Cull Pattern</span><span class="wt">Graph Mapper</span><span class="wt">Series</span></div><div class="wr-time">⏱ 25 min/day — output: 8 parametric columns with varied height</div></div><div class="wr-chk"><button class="wchk" onclick="chk('2_3')" id="chk2_3"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=b0elmzjWlE8&t=3600" target="_blank"><span class="r-icon">▶</span> Gediminas 2024 GH Course — Lists Section</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=P-A3M6dkDqU" target="_blank"><span class="r-icon">▶</span> Parametric House — List Operations in GH</a>
+      <a class="rchip rchip-pdf" href="https://math.okstate.edu/people/segerman/4423/EssentialMathematicsForComputationalDesign_ThirdEdition_rev3.pdf" target="_blank">📄 Essential Mathematics for Computational Design — Rajaa Issa (Free PDF)</a>
+      <a class="rchip rchip-uni" href="https://interactivetextbooks.tudelft.nl/rhino-grasshopper/Grasshopper_Rhino_course/2_Knowledge_base/3_Data_structures/index.html" target="_blank">🎓 TU Delft — Data Structures Chapter</a>
+    </div></div>
+
+    <div class="wr" id="wr2_4"><div class="wr-top"><div class="wr-lbl">Week 08</div><div><div class="wr-main">Review week. Rebuild all Week 5, 6, 7 exercises from scratch without tutorials. Document every gap. Go back and re-read GH Primer chapters on data. Read Zubin Khabazi's "Generative Algorithms" — free PDF from TU Delft's own repository. Add colour-coded groups, labels, and notes to all your definitions — professional habit from Day 1.</div><div class="wr-tags"><span class="wt">Review</span><span class="wt">Documentation</span><span class="wt">GH Primer</span></div><div class="wr-time">⏱ 30 min/day — rebuild from memory, no tutorials</div></div><div class="wr-chk"><button class="wchk" onclick="chk('2_4')" id="chk2_4"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-pdf" href="https://www.grasshopper3d.com/page/tutorials-1" target="_blank">📄 GH Official Primer PDF — Free (re-read Ch. 3–5)</a>
+      <a class="rchip rchip-pdf" href="http://toi.bk.tudelft.nl/downloads/ar1ae015/Generative_Algorithms.pdf" target="_blank">📄 Generative Algorithms — Zubin Khabazi (TU Delft Free PDF)</a>
+      <a class="rchip rchip-uni" href="https://ocw.tudelft.nl/more/architecture-software/" target="_blank">🎓 TU Delft OCW — Architecture Software Page (GH Index)</a>
+      <a class="rchip rchip-web" href="https://discourse.mcneel.com/c/grasshopper/2" target="_blank">💬 McNeel Discourse Forum — GH Questions</a>
+    </div></div>
+
+    <div class="pnote"><div class="pnote-lbl">Phase 2 Notes</div><textarea class="pnote-ta" id="note2" placeholder="Components you keep confusing, list logic breakthroughs, questions..." onchange="saveNote(2,this.value)"></textarea></div>
+  </div>
+</div>
+
+<!-- ══════════ PHASE 3 ══════════ -->
+<div class="pb" id="ph3">
+  <div class="pb-head" onclick="tog(this)">
+    <div class="pb-num" style="color:var(--p3)">03</div>
+    <div class="pb-info"><div class="pb-title">Data Trees + Patterns + Surfaces</div><div class="pb-desc">The hardest concept in GH — master it and every definition unlocks</div></div>
+    <div class="pb-meta"><div class="pb-wk">Weeks 9–13</div><div class="pb-cnt" style="color:var(--p3)" id="cc3">0/5</div><svg class="pb-chv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="pb-body">
+
+    <div class="wr" id="wr3_1"><div class="wr-top"><div class="wr-lbl">Week 09</div><div><div class="wr-main">Data trees: what are paths, branches, items. Use Param Viewer to see tree structure live. Study Flatten (removes all branches → one list), Graft (every item becomes its own branch), Simplify (removes redundant paths). These three operations control 80% of GH errors. Spend double time here — this is the wall where most architects quit. Watch the Gediminas Advanced Course specifically on data trees.</div><div class="wr-tags"><span class="wt">Data Trees</span><span class="wt">Flatten</span><span class="wt">Graft</span><span class="wt">Simplify</span><span class="wt">Param Viewer</span></div><div class="wr-time">⏱ 30 min/day — critical week, do not rush through it</div></div><div class="wr-chk"><button class="wchk" onclick="chk('3_1')" id="chk3_1"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=DksmgSLtMww" target="_blank"><span class="r-icon">▶</span> Gediminas — Advanced GH 2026 Full Course (Data Trees section — this is the key video)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=OgmT5HJDi48" target="_blank"><span class="r-icon">▶</span> Parametric House — Understanding Data Trees in GH</a>
+      <a class="rchip rchip-uni" href="https://interactivetextbooks.tudelft.nl/rhino-grasshopper/Grasshopper_Rhino_course/2_Knowledge_base/3_Data_structures/index.html" target="_blank">🎓 TU Delft — Data Structures (Flatten, Graft, Trees chapter)</a>
+      <a class="rchip rchip-pdf" href="http://toi.bk.tudelft.nl/downloads/ar1ae015/Generative_Algorithms.pdf" target="_blank">📄 Generative Algorithms PDF — Ch. 2: Lists & Trees</a>
+    </div></div>
+
+    <div class="wr" id="wr3_2"><div class="wr-top"><div class="wr-lbl">Week 10</div><div><div class="wr-main">Mathematical operations: Range, Series, Remap Numbers, Graph Mapper. Build an attractor-point system: a flat grid of squares where each panel scales based on its distance from a movable attractor point (use Distance → Remap → Rectangle). This is the classic GH exercise every architect should complete.</div><div class="wr-tags"><span class="wt">Attractor Point</span><span class="wt">Remap</span><span class="wt">Distance</span><span class="wt">Range</span></div><div class="wr-time">⏱ 25 min/day — output: attractor grid definition</div></div><div class="wr-chk"><button class="wchk" onclick="chk('3_2')" id="chk3_2"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=N9vSBnDOFyg" target="_blank"><span class="r-icon">▶</span> Parametric House — Attractor Point System Step by Step</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=F32j1YS3DtQ" target="_blank"><span class="r-icon">▶</span> Gediminas — Parametric Voronoi Wall (applies attractor logic)</a>
+      <a class="rchip rchip-pdf" href="https://math.okstate.edu/people/segerman/4423/EssentialMathematicsForComputationalDesign_ThirdEdition_rev3.pdf" target="_blank">📄 Essential Mathematics PDF — Rajaa Issa (Vectors, Transformations chapter)</a>
+    </div></div>
+
+    <div class="wr" id="wr3_3"><div class="wr-top"><div class="wr-lbl">Week 11</div><div><div class="wr-main">Surface division: Divide Surface (U/V count), Isotrim (sub-surface from UV domain), Surface Closest Point, Evaluate Surface. Build a parametric facade grid on a curved surface — adjustable panel count and extrusion depth per panel. Use Deconstruct Brep to get faces of a polysurface. This is the basis of almost every parametric facade project.</div><div class="wr-tags"><span class="wt">Divide Surface</span><span class="wt">Isotrim</span><span class="wt">UV Domain</span><span class="wt">Facade Grid</span></div><div class="wr-time">⏱ 25 min/day — output: paneled parametric facade on curved form</div></div><div class="wr-chk"><button class="wchk" onclick="chk('3_3')" id="chk3_3"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=mJYfRvqknqU" target="_blank"><span class="r-icon">▶</span> Parametric House — Divide Surface & Isotrim Tutorial</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=NZZru1Gdpew" target="_blank"><span class="r-icon">▶</span> Gediminas — Parametric Wall Bubbles (surface paneling variation)</a>
+      <a class="rchip rchip-uni" href="https://interactivetextbooks.tudelft.nl/rhino-grasshopper/Grasshopper_Rhino_course/2_Knowledge_base/2_Geometry/4_Surfaces.html" target="_blank">🎓 TU Delft — Surfaces in GH (Knowledge Base)</a>
+    </div></div>
+
+    <div class="wr" id="wr3_4"><div class="wr-top"><div class="wr-lbl">Week 12</div><div><div class="wr-main">Curve + geometry manipulation: Offset Curve, Move, Rotate, Mirror in GH. Cull Pattern to create regular voids. Build a parametric jaali screen pattern inspired by Indian geometric art — a repeating grid of rotated squares with controllable void ratio. Bake, print to scale, check proportions. This is directly applicable to Indian architecture projects.</div><div class="wr-tags"><span class="wt">Jaali Pattern</span><span class="wt">Cull Pattern</span><span class="wt">Offset</span><span class="wt">Indian Context</span></div><div class="wr-time">⏱ 25 min/day — output: parametric jaali definition</div></div><div class="wr-chk"><button class="wchk" onclick="chk('3_4')" id="chk3_4"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=F32j1YS3DtQ" target="_blank"><span class="r-icon">▶</span> Gediminas — Parametric Wall No.1 "Voronoi" (jaali logic foundation)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=U_dg4k2aO2U" target="_blank"><span class="r-icon">▶</span> Parametric House — Image Sampler Pattern (for complex jaali variations)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/playlist?list=PLuhw3IJ5k9riV6_eIVhUGCr5O9PsHb6lg" target="_blank"><span class="r-icon">▶</span> Gediminas — Advanced GH Playlist (Pattern Logic Series)</a>
+    </div></div>
+
+    <div class="wr" id="wr3_5"><div class="wr-top"><div class="wr-lbl">Week 13</div><div><div class="wr-main">Phase 3 Milestone: Design a parametric screen wall with minimum 3 independent parameters. Bake, document, screenshot. Label every group. Use colour-coded groups (Surface Logic = green, Math = blue, Output = orange — pick your system). Save permanently as your GH template starting point. Write a paragraph describing what each section of the definition does — future-you will thank you.</div><div class="wr-tags"><span class="wt">Mini Project</span><span class="wt">Milestone</span><span class="wt">Documentation</span><span class="wt">Groups</span></div><div class="wr-time">⏱ 30 min/day — deliverable: labelled, saved GH file</div></div><div class="wr-chk"><button class="wchk" onclick="chk('3_5')" id="chk3_5"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-uni" href="https://ocw.tudelft.nl/more/architecture-software/" target="_blank">🎓 TU Delft OCW — Architecture Software + GH Resources Index</a>
+      <a class="rchip rchip-pdf" href="http://toi.bk.tudelft.nl/downloads/ar1ae015/Generative_Algorithms.pdf" target="_blank">📄 Generative Algorithms — Zubin Khabazi (re-read for milestone project ideas)</a>
+      <a class="rchip rchip-web" href="https://discourse.mcneel.com/c/grasshopper/2" target="_blank">💬 McNeel Forum — post your milestone for feedback</a>
+    </div></div>
+
+    <div class="pnote"><div class="pnote-lbl">Phase 3 Notes</div><textarea class="pnote-ta" id="note3" placeholder="Data tree struggles? Flatten vs Graft notes? Jaali design sketches?" onchange="saveNote(3,this.value)"></textarea></div>
+  </div>
+</div>
+
+<!-- ══════════ PHASE 4 ══════════ -->
+<div class="pb" id="ph4">
+  <div class="pb-head" onclick="tog(this)">
+    <div class="pb-num" style="color:var(--p4)">04</div>
+    <div class="pb-info"><div class="pb-title">Plugins + Environmental Analysis</div><div class="pb-desc">LunchBox, Ladybug, Galapagos — connecting computation to real climate decisions</div></div>
+    <div class="pb-meta"><div class="pb-wk">Weeks 14–17</div><div class="pb-cnt" style="color:var(--p4)" id="cc4">0/4</div><svg class="pb-chv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="pb-body">
+
+    <div class="wr" id="wr4_1"><div class="wr-top"><div class="wr-lbl">Week 14</div><div><div class="wr-main">Install plugins via Food4Rhino (free). Install LunchBox — explore triangular, quad, hexagonal panel types on curved surfaces. Install Weaverbird — apply mesh subdivision and thickening to a mesh geometry. Understand plugin management: PackageManager in Rhino vs manual .gha install. Keep a "plugins installed" text file in your GH folder.</div><div class="wr-tags"><span class="wt">LunchBox</span><span class="wt">Weaverbird</span><span class="wt">Food4Rhino</span><span class="wt">Paneling</span></div><div class="wr-time">⏱ 25 min/day — output: hex-paneled curved facade</div></div><div class="wr-chk"><button class="wchk" onclick="chk('4_1')" id="chk4_1"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=GYUHDCjhbeA" target="_blank"><span class="r-icon">▶</span> Parametric House — LunchBox Paneling Basics</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=8PgJJRhbxHE" target="_blank"><span class="r-icon">▶</span> Gediminas — Weaverbird Mesh Thickening Tutorial</a>
+      <a class="rchip rchip-web" href="https://www.food4rhino.com/en/app/lunchbox" target="_blank">🔗 Food4Rhino — LunchBox Download (Free)</a>
+      <a class="rchip rchip-web" href="https://www.food4rhino.com/en/app/weaverbird" target="_blank">🔗 Food4Rhino — Weaverbird Download (Free)</a>
+    </div></div>
+
+    <div class="wr" id="wr4_2"><div class="wr-top"><div class="wr-lbl">Week 15</div><div><div class="wr-main">Install Ladybug Tools (free). Download the EPW weather file for Mumbai (or your city) from climate.onebuilding.org — completely free. Run a sun path diagram in GH. Visualise hourly sun positions for the full year. Understand solar altitude and azimuth. This is the foundation for all climate-responsive design in GH.</div><div class="wr-tags"><span class="wt">Ladybug</span><span class="wt">EPW File</span><span class="wt">Sun Path</span><span class="wt">Mumbai Climate</span></div><div class="wr-time">⏱ 30 min/day — output: Mumbai annual sun path diagram</div></div><div class="wr-chk"><button class="wchk" onclick="chk('4_2')" id="chk4_2"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=uVHxb-2pUHI" target="_blank"><span class="r-icon">▶</span> Ladybug Tools — Getting Started with Ladybug Official Tutorial</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=C1P8tAFK_yM" target="_blank"><span class="r-icon">▶</span> Gediminas — Ladybug Sun Analysis in Grasshopper</a>
+      <a class="rchip rchip-web" href="https://climate.onebuilding.org" target="_blank">🌦 climate.onebuilding.org — Free EPW Files for India</a>
+      <a class="rchip rchip-web" href="https://www.ladybug.tools/ladybug.html" target="_blank">🔗 Ladybug Tools Official Docs + Install</a>
+    </div></div>
+
+    <div class="wr" id="wr4_3"><div class="wr-top"><div class="wr-lbl">Week 16</div><div><div class="wr-main">Use Ladybug to design a climate-responsive shading device. Parametrically adjust overhang depth and angle in GH, and use Ladybug's Sunlight Hours Analysis to calculate how much direct sunlight hits a south-facing window in Mumbai's hottest months (Apr–Jun). Find the minimum overhang that blocks 90% of summer sun. This is evidence-based design — computation serving a real purpose.</div><div class="wr-tags"><span class="wt">Shading Optimisation</span><span class="wt">Sunlight Hours</span><span class="wt">Climate Responsive</span></div><div class="wr-time">⏱ 30 min/day — output: optimised shading device GH definition</div></div><div class="wr-chk"><button class="wchk" onclick="chk('4_3')" id="chk4_3"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=VyZCcUBDTjQ" target="_blank"><span class="r-icon">▶</span> Ladybug Tools — Sunlight Hours Analysis Tutorial (Official)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=HXZQ7X6STHU" target="_blank"><span class="r-icon">▶</span> Parametric House — Shade GH Parametric Shading Device</a>
+      <a class="rchip rchip-web" href="https://github.com/ladybug-tools/ladybug" target="_blank">🔗 Ladybug GitHub (free scripts + examples)</a>
+    </div></div>
+
+    <div class="wr" id="wr4_4"><div class="wr-top"><div class="wr-lbl">Week 17</div><div><div class="wr-main">Introduction to Galapagos evolutionary solver. Set up a simple optimisation problem — adjust 2 sliders (overhang depth + angle) to maximise shading while minimising total fin area. Connect to Galapagos, set the fitness function, run the solver. Study the fitness history graph. Understand what "fitness," "genome," and "Pareto front" mean. Understand the limits: solvers find local optima, not absolute truths.</div><div class="wr-tags"><span class="wt">Galapagos</span><span class="wt">Evolutionary Solver</span><span class="wt">Fitness</span><span class="wt">Optimisation</span></div><div class="wr-time">⏱ 30 min/day — output: first completed optimisation run</div></div><div class="wr-chk"><button class="wchk" onclick="chk('4_4')" id="chk4_4"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=fFBNl9NIO7A" target="_blank"><span class="r-icon">▶</span> Gediminas — Galapagos Optimisation in GH Step by Step</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=KgHB8RPc01Y" target="_blank"><span class="r-icon">▶</span> Parametric House — Galapagos Tutorial (Architectural Example)</a>
+      <a class="rchip rchip-web" href="https://www.grasshopper3d.com/forum/topics/galapagos-tutorial" target="_blank">💬 GH Forum — Galapagos Tutorial Thread</a>
+    </div></div>
+
+    <div class="pnote"><div class="pnote-lbl">Phase 4 Notes</div><textarea class="pnote-ta" id="note4" placeholder="Plugin install issues, Mumbai climate insights, solver results..." onchange="saveNote(4,this.value)"></textarea></div>
+  </div>
+</div>
+
+<!-- ══════════ PHASE 5 ══════════ -->
+<div class="pb" id="ph5">
+  <div class="pb-head" onclick="tog(this)">
+    <div class="pb-num" style="color:var(--p5)">05</div>
+    <div class="pb-info"><div class="pb-title">Real Projects + GhPython + Rhino.Inside.Revit</div><div class="pb-desc">Apply to live work, learn Python scripting, and bridge GH into your Revit workflow</div></div>
+    <div class="pb-meta"><div class="pb-wk">Weeks 18–21</div><div class="pb-cnt" style="color:var(--p5)" id="cc5">0/4</div><svg class="pb-chv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="pb-body">
+
+    <div class="wr" id="wr5_1"><div class="wr-top"><div class="wr-lbl">Week 18</div><div><div class="wr-main">Pick one repetitive element from an active project — a facade panel, a jaali screen, a ceiling pattern, a spout array, or a louvre system. Rebuild it parametrically in GH. Start with just geometry correctness, then add parameters. Don't over-engineer on the first pass. The goal is a GH definition that generates the correct geometry with at least 2 adjustable parameters.</div><div class="wr-tags"><span class="wt">Live Project</span><span class="wt">Facade</span><span class="wt">Parametric Element</span></div><div class="wr-time">⏱ 30 min/day — output: live project element rebuilt in GH</div></div><div class="wr-chk"><button class="wchk" onclick="chk('5_1')" id="chk5_1"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=DksmgSLtMww" target="_blank"><span class="r-icon">▶</span> Gediminas — Advanced GH 2026 Course (Project Application section)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=NZZru1Gdpew" target="_blank"><span class="r-icon">▶</span> Gediminas — Parametric Wall Bubbles (real project facade logic)</a>
+      <a class="rchip rchip-web" href="https://discourse.mcneel.com/c/grasshopper/2" target="_blank">💬 McNeel Forum — post your definition, get feedback</a>
+    </div></div>
+
+    <div class="wr" id="wr5_2"><div class="wr-top"><div class="wr-lbl">Week 19</div><div><div class="wr-main">Add 3 controllable parameters to your live project element. Generate and screenshot 3 distinct design variations from the same GH definition — just by moving sliders. This is the core value of computational design: one script, infinite variations. Present these options to a colleague. Explain the parametric logic to someone who doesn't know GH — if you can explain it, you understand it.</div><div class="wr-tags"><span class="wt">Design Variations</span><span class="wt">Presentation</span><span class="wt">3 Options</span></div><div class="wr-time">⏱ 25 min/day — output: 3-option screenshot + explanation</div></div><div class="wr-chk"><button class="wchk" onclick="chk('5_2')" id="chk5_2"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=F32j1YS3DtQ" target="_blank"><span class="r-icon">▶</span> Gediminas — Voronoi Wall (multi-variation parametric facade example)</a>
+      <a class="rchip rchip-uni" href="https://interactivetextbooks.tudelft.nl/rhino-grasshopper/Grasshopper_Rhino_course/intro.html" target="_blank">🎓 TU Delft Open Textbook — Advanced Lessons (fabrication + design sections)</a>
+    </div></div>
+
+    <div class="wr" id="wr5_3"><div class="wr-top"><div class="wr-lbl">Week 20</div><div><div class="wr-main">Introduction to GhPython scripting. Open a Python component in GH (GHPython or Script component). Write a script that generates a list of numbers following a custom Fibonacci-like rule. Use RhinoScriptSyntax (rs.AddLine, rs.AddPoint) to create geometry from code. No prior programming experience needed — GhPython is the gentlest intro to coding you can get. Python unlocks everything GH's visual components cannot do.</div><div class="wr-tags"><span class="wt">GhPython</span><span class="wt">Scripting</span><span class="wt">RhinoScriptSyntax</span><span class="wt">No Prior Coding</span></div><div class="wr-time">⏱ 30 min/day — output: first Python GH component creating geometry</div></div><div class="wr-chk"><button class="wchk" onclick="chk('5_3')" id="chk5_3"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=5yKdW93rXLE" target="_blank"><span class="r-icon">▶</span> Gediminas — GhPython Basics for Beginners</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=qXV7BzTqDiE" target="_blank"><span class="r-icon">▶</span> Parametric House — Python in Grasshopper Intro</a>
+      <a class="rchip rchip-web" href="https://developer.rhino3d.com/guides/rhinopython/" target="_blank">📄 Rhino Python Guides — McNeel Official (Free)</a>
+      <a class="rchip rchip-web" href="https://developer.rhino3d.com/guides/rhinoscript/" target="_blank">📄 RhinoScriptSyntax API Reference (Free)</a>
+    </div></div>
+
+    <div class="wr" id="wr5_4"><div class="wr-top"><div class="wr-lbl">Week 21</div><div><div class="wr-main">Rhino.Inside.Revit — the bridge between Grasshopper and Revit BIM. Install free from rhino3d.com/inside/revit. Launch Grasshopper from inside Revit via the new Rhino tab. Build a GH definition that creates Revit Walls, Levels, and Columns from GH sliders — watch Gediminas's 3-part beginner series. Understand the workflow: parametric geometry in GH → push directly to Revit without remodelling. This is the most important office productivity upgrade in this entire plan.</div><div class="wr-tags"><span class="wt">Rhino.Inside.Revit</span><span class="wt">BIM</span><span class="wt">Revit Walls</span><span class="wt">GH→Revit</span></div><div class="wr-time">⏱ 30 min/day — output: GH definition that creates Revit walls + levels live</div></div><div class="wr-chk"><button class="wchk" onclick="chk('5_4')" id="chk5_4"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=4P_wtBKnXnU" target="_blank"><span class="r-icon">▶</span> Gediminas — Rhino.Inside.Revit Beginner Course 1/3 — Auto Levels & Columns</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=wGv9_7WxeZ0" target="_blank"><span class="r-icon">▶</span> Lucas Denit — Rhino Inside Revit Step-by-Step Intro for Beginners</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=HfhLuWGT_P0" target="_blank"><span class="r-icon">▶</span> How to Rhino — Get Started with Rhino Inside Revit (2024)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/playlist?list=PLsh4U_RA_9K51qHebF_j9iueY4SY-ZiHG" target="_blank"><span class="r-icon">▶</span> McNeel Official — Rhino Inside Revit Tutorial Playlist</a>
+      <a class="rchip rchip-web" href="https://www.rhino3d.com/inside/revit/1.0/getting-started" target="_blank">📄 Rhino.Inside.Revit Official Getting Started Docs</a>
+    </div></div>
+
+    <div class="pnote"><div class="pnote-lbl">Phase 5 Notes</div><textarea class="pnote-ta" id="note5" placeholder="Live project notes, Python struggles, Revit integration workflow..." onchange="saveNote(5,this.value)"></textarea></div>
+  </div>
+</div>
+
+<!-- ══════════ PHASE 6 ══════════ -->
+<div class="pb" id="ph6">
+  <div class="pb-head" onclick="tog(this)">
+    <div class="pb-num" style="color:var(--p6)">06</div>
+    <div class="pb-info"><div class="pb-title">Portfolio Project + Community</div><div class="pb-desc">Build a standalone project, render it, document it, share it publicly</div></div>
+    <div class="pb-meta"><div class="pb-wk">Weeks 22–26</div><div class="pb-cnt" style="color:var(--p6)" id="cc6">0/5</div><svg class="pb-chv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="pb-body">
+
+    <div class="wr" id="wr6_1"><div class="wr-top"><div class="wr-lbl">Week 22</div><div><div class="wr-main">Begin portfolio project: a climate-responsive facade for a Mumbai high-rise, or a parametric jaali wall referencing Indian geometric art (Jali from Amer Fort, Fatehpur Sikri, or Sidi Saiyyed Mosque as reference). Define the design intent in a paragraph before opening GH. The computation must serve an idea, not replace one. Sketch by hand first.</div><div class="wr-tags"><span class="wt">Concept</span><span class="wt">Mumbai Context</span><span class="wt">Indian Geometry</span><span class="wt">Design Intent</span></div><div class="wr-time">⏱ 30 min/day — output: concept sketch + intent written paragraph</div></div><div class="wr-chk"><button class="wchk" onclick="chk('6_1')" id="chk6_1"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=DksmgSLtMww" target="_blank"><span class="r-icon">▶</span> Gediminas — Advanced GH 2026 Full Course (design project workflow)</a>
+      <a class="rchip rchip-pdf" href="http://toi.bk.tudelft.nl/downloads/ar1ae015/Generative_Algorithms.pdf" target="_blank">📄 Generative Algorithms — Zubin Khabazi (re-read for project inspiration)</a>
+    </div></div>
+
+    <div class="wr" id="wr6_2"><div class="wr-top"><div class="wr-lbl">Week 23</div><div><div class="wr-main">Build the portfolio project GH definition. Integrate everything from Phases 1–5: surface division, attractor logic, Ladybug climate analysis, data tree management, Python components where needed. Aim for 3–5 adjustable parameters. Document with groups and labels as you build — don't leave it to the end.</div><div class="wr-tags"><span class="wt">Full Definition</span><span class="wt">All Phases Applied</span><span class="wt">3–5 Parameters</span></div><div class="wr-time">⏱ 30 min/day — output: complete integrated GH definition</div></div><div class="wr-chk"><button class="wchk" onclick="chk('6_2')" id="chk6_2"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-uni" href="https://interactivetextbooks.tudelft.nl/rhino-grasshopper/Grasshopper_Rhino_course/intro.html" target="_blank">🎓 TU Delft Open Textbook — Final Project Section</a>
+      <a class="rchip rchip-web" href="https://discourse.mcneel.com/c/grasshopper/2" target="_blank">💬 McNeel Forum — ask technical questions as you build</a>
+    </div></div>
+
+    <div class="wr" id="wr6_3"><div class="wr-top"><div class="wr-lbl">Week 24</div><div><div class="wr-main">Render and document. Bake to Rhino. Use D5 Render (free tier) or Blender (completely free) with the exported OBJ/FBX for rendering. Create: one hero render, two parameter-variation screenshots. Lay out an A3 portfolio sheet in Figma (free) or Canva (free) showing design intent → GH definition → rendered output → parameter range.</div><div class="wr-tags"><span class="wt">D5 Render</span><span class="wt">Blender (Free)</span><span class="wt">A3 Sheet</span><span class="wt">Figma (Free)</span></div><div class="wr-time">⏱ 30 min/day — output: A3 portfolio sheet (PDF)</div></div><div class="wr-chk"><button class="wchk" onclick="chk('6_3')" id="chk6_3"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=1t6BKx_y0wE" target="_blank"><span class="r-icon">▶</span> Gediminas — D5 Render + Rhino Workflow Tutorial</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=FGd0Bj0YUTE" target="_blank"><span class="r-icon">▶</span> How To Rhino — Rendering Architecture in Rhino (Free Built-in)</a>
+      <a class="rchip rchip-web" href="https://www.blender.org/download/" target="_blank">🔗 Blender — Free 3D Rendering (import OBJ from Rhino)</a>
+      <a class="rchip rchip-web" href="https://www.figma.com" target="_blank">🔗 Figma — Free Portfolio Sheet Layout</a>
+    </div></div>
+
+    <div class="wr" id="wr6_4"><div class="wr-top"><div class="wr-lbl">Week 25</div><div><div class="wr-main">Share your work. Post on McNeel Grasshopper forum with a description of the definition logic and ask for one specific technical critique. Post the portfolio sheet on LinkedIn. Upload the GH file to GitHub or Pastebin so others can learn from it. Engage with at least one other person's project on the forum. Community critique is irreplaceable — textbooks cannot simulate it.</div><div class="wr-tags"><span class="wt">Community</span><span class="wt">LinkedIn Post</span><span class="wt">GitHub Upload</span><span class="wt">Feedback</span></div><div class="wr-time">⏱ 20 min/day — output: public post + forum engagement</div></div><div class="wr-chk"><button class="wchk" onclick="chk('6_4')" id="chk6_4"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-web" href="https://discourse.mcneel.com/c/grasshopper/2" target="_blank">💬 McNeel Grasshopper Forum</a>
+      <a class="rchip rchip-web" href="https://github.com" target="_blank">🔗 GitHub — Free GH File Hosting</a>
+      <a class="rchip rchip-web" href="https://www.food4rhino.com" target="_blank">🔗 Food4Rhino Community — Share Scripts</a>
+    </div></div>
+
+    <div class="wr" id="wr6_5"><div class="wr-top"><div class="wr-lbl">Week 26</div><div><div class="wr-main">Celebrate finishing Phase 1–6. Reflect: what was hardest (data trees)? What was most useful (Ladybug? Rhino.Inside.Revit?)? What project would you tackle next? Plan your next 6 months. Options ahead: advanced GhPython/C# scripting, Wallacei multi-objective optimisation, or Phase 7 below — Grasshopper for Urban Design and Town Planning. Read Arturo Tedeschi's "AAD Algorithms-Aided Design" book — free preview available. Decide: Phase 7, or real project focus?</div><div class="wr-tags"><span class="wt">Milestone</span><span class="wt">Reflection</span><span class="wt">Plan Phase 7</span></div><div class="wr-time">⏱ 20 min — reflection session, no output pressure</div></div><div class="wr-chk"><button class="wchk" onclick="chk('6_5')" id="chk6_5"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/playlist?list=PLuhw3IJ5k9riV6_eIVhUGCr5O9PsHb6lg" target="_blank"><span class="r-icon">▶</span> Gediminas — Full Advanced GH Playlist (what's next)</a>
+      <a class="rchip rchip-web" href="https://www.arturoTedeschi.com/aad-algorithms-aided-design.html" target="_blank">📄 Arturo Tedeschi — AAD Book Preview (companion reading)</a>
+      <a class="rchip rchip-pdf" href="http://toi.bk.tudelft.nl/downloads/ar1ae015/Generative_Algorithms.pdf" target="_blank">📄 Generative Algorithms — Zubin Khabazi (full re-read now makes sense)</a>
+    </div></div>
+
+    <div class="pnote"><div class="pnote-lbl">Phase 6 Notes + Reflection</div><textarea class="pnote-ta" id="note6" placeholder="Portfolio reflections, feedback received, plans for what's next..." onchange="saveNote(6,this.value)"></textarea></div>
+  </div>
+</div>
+
+<!-- ══════════ PHASE 7 — URBAN DESIGN ══════════ -->
+<div class="pb" id="ph7" style="border-color:rgba(207,142,106,0.25)">
+  <div class="pb-head" onclick="tog(this)" style="background:rgba(207,142,106,0.03)">
+    <div class="pb-num" style="color:var(--p7)">07</div>
+    <div class="pb-info"><div class="pb-title">↑ Urban Design + Town Planning with Grasshopper</div><div class="pb-desc">Advanced upgrade — GIS import, masterplanning, density analysis, street networks, Indian planning standards</div></div>
+    <div class="pb-meta"><div class="pb-wk">Advanced +12 wks</div><div class="pb-cnt" style="color:var(--p7)" id="cc7">0/12</div><svg class="pb-chv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="pb-body">
+    <div class="urban-banner">
+      <div class="ubc"><div class="ubc-icon">🗺</div><div class="ubc-title">Why GH for Urban Design?</div><div class="ubc-text">Urban design = rule-based layouts, repeatable typologies, and large datasets. GH generates thousands of plot variations, street networks, and density scenarios in seconds from a single definition.</div></div>
+      <div class="ubc"><div class="ubc-icon">🇮🇳</div><div class="ubc-title">Indian Planning Context</div><div class="ubc-text">Encode UDPFI guidelines, FSI/FAR zone rules, RERA setbacks, and HMDA/MMRDA bylaws directly into GH. Generate compliant layouts parametrically from the start — not as a retrofit.</div></div>
+      <div class="ubc"><div class="ubc-icon">🛠</div><div class="ubc-title">Urban GH Plugin Stack</div><div class="ubc-text">Elk (OSM import), Urbano (street networks), Heron (GIS data), Decoding Spaces (spatial analysis), Speckle (collaboration), Wallacei (multi-objective optimisation) — all free.</div></div>
+    </div>
+
+    <div class="wr" id="wr7_1"><div class="wr-top"><div class="wr-lbl">Wks 27–28</div><div><div class="wr-main">GIS fundamentals for architects. Install Heron plugin (free, Food4Rhino). Install Elk plugin (free, Food4Rhino). Import OSM (OpenStreetMap) data into Rhino — get roads, building footprints, land use boundaries for any site globally. Practice importing a Mumbai neighbourhood. Understand coordinate systems: WGS84 vs local. Export a site plan DWG from the imported OSM data.</div><div class="wr-tags"><span class="wt">Heron</span><span class="wt">Elk</span><span class="wt">OSM</span><span class="wt">GIS</span><span class="wt">Mumbai Site</span></div><div class="wr-time">⏱ 30 min/day — output: site map of a Mumbai neighbourhood in Rhino via GH</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_1')" id="chk7_1"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=ZbNWM_GWKEA" target="_blank"><span class="r-icon">▶</span> Parametric House — Elk OSM Import in Grasshopper</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=1nnkOQ6nLVU" target="_blank"><span class="r-icon">▶</span> How To Rhino — Heron GIS Data in Grasshopper</a>
+      <a class="rchip rchip-web" href="https://www.food4rhino.com/en/app/elk" target="_blank">🔗 Elk Plugin — Free Download</a>
+      <a class="rchip rchip-web" href="https://www.food4rhino.com/en/app/heron" target="_blank">🔗 Heron Plugin — Free Download</a>
+      <a class="rchip rchip-web" href="https://www.openstreetmap.org" target="_blank">🌍 OpenStreetMap — Free Global GIS Data</a>
+    </div></div>
+
+    <div class="wr" id="wr7_2"><div class="wr-top"><div class="wr-lbl">Wks 29–30</div><div><div class="wr-main">Parametric plot subdivision. Build a GH definition that subdivides a site polygon into plots based on: minimum road frontage, minimum plot area, and setback distances. Encode Indian planning standards — 1.5m side setbacks, 3m front setback, 60 sqm minimum plot (per MMRDA typical guidelines). Adjust FSI via slider and see maximum built volume update live as a 3D massing.</div><div class="wr-tags"><span class="wt">Plot Subdivision</span><span class="wt">FSI/FAR</span><span class="wt">MMRDA Guidelines</span><span class="wt">Setbacks</span></div><div class="wr-time">⏱ 30 min/day — output: parametric compliant plot generator</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_2')" id="chk7_2"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=hj6r2OoMM5g" target="_blank"><span class="r-icon">▶</span> Parametric House — Site & Plot Subdivision in GH</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=jUWoXlT62-w" target="_blank"><span class="r-icon">▶</span> Gediminas — Slope & Site Constraints in GH (relevant to plot logic)</a>
+      <a class="rchip rchip-pdf" href="http://toi.bk.tudelft.nl/downloads/ar1ae015/Generative_Algorithms.pdf" target="_blank">📄 Generative Algorithms PDF — Polygon subdivision chapter</a>
+    </div></div>
+
+        <div class="wr" id="wr7_3"><div class="wr-top"><div class="wr-lbl">Wks 31–32</div><div><div class="wr-main">Street network generation with Urbano plugin (free, Food4Rhino). Generate hierarchical street networks — arterial, collector, local — from a site boundary. Analyse connectivity, average block size, and pedestrian catchment. Compare three typologies: grid, organic, and superblock for a 10-hectare site. Directly applicable to township projects like JSW Nandyal.</div><div class="wr-tags"><span class="wt">Urbano</span><span class="wt">Street Network</span><span class="wt">Block Size</span><span class="wt">Township</span></div><div class="wr-time">⏱ 30 min/day — output: 3 street typologies compared in GH</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_3')" id="chk7_3"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=Og1v3-GIqDE" target="_blank"><span class="r-icon">▶</span> Urbano — Official Tutorial: Street Network Generation in GH</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=aMiLfIdBCUU" target="_blank"><span class="r-icon">▶</span> Parametric House — Urban Network Analysis in Grasshopper</a>
+      <a class="rchip rchip-web" href="https://www.food4rhino.com/en/app/urbano" target="_blank">🔗 Urbano Plugin — Free Download</a>
+    </div></div>
+
+    <div class="wr" id="wr7_4"><div class="wr-top"><div class="wr-lbl">Wks 33–34</div><div><div class="wr-main">Density and massing studies. Build a GH definition that places building typologies (row houses, mid-rise, high-rise) across a masterplan grid. Control: unit mix, building footprint, height, open space ratio. Calculate total dwelling units, FSI consumed vs permitted, open space m², and percentage — live in GH panels, updating with every slider change. This is what separates computational urban design from manual iteration.</div><div class="wr-tags"><span class="wt">Density</span><span class="wt">Massing</span><span class="wt">Unit Count</span><span class="wt">FSI Live</span></div><div class="wr-time">⏱ 30 min/day — output: parametric massing generator with live data panels</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_4')" id="chk7_4"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=f6P5ZF9-aNI" target="_blank"><span class="r-icon">▶</span> Parametric House — Urban Massing + Density Study in GH</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=DksmgSLtMww" target="_blank"><span class="r-icon">▶</span> Gediminas — Advanced GH 2026 Full Course (complex definition management)</a>
+      <a class="rchip rchip-uni" href="https://ocw.tudelft.nl/more/architecture-software/" target="_blank">🎓 TU Delft OCW — Parametric Urban Design References</a>
+    </div></div>
+
+    <div class="wr" id="wr7_5"><div class="wr-top"><div class="wr-lbl">Wks 35–36</div><div><div class="wr-main">Spatial analysis with Decoding Spaces toolkit (free, Food4Rhino). Run isovist/viewshed analysis on a public plaza — which parts are most visible from an entry point? Run visibility analysis on street intersections and convex space mapping across a neighbourhood layout. Use outputs to argue for design decisions with spatial data: "the plaza needs shifting 8m north to improve passive surveillance" — evidence-based urban design.</div><div class="wr-tags"><span class="wt">Decoding Spaces</span><span class="wt">Isovist</span><span class="wt">Visibility</span><span class="wt">Space Syntax</span></div><div class="wr-time">⏱ 30 min/day — output: visibility analysis of a neighbourhood layout</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_5')" id="chk7_5"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=5HBb27jcimM" target="_blank"><span class="r-icon">▶</span> Decoding Spaces — Official Tutorial: Isovist Analysis in GH</a>
+      <a class="rchip rchip-web" href="https://decodingspaces-toolbox.org" target="_blank">🔗 Decoding Spaces Toolbox — Docs + Free Download</a>
+      <a class="rchip rchip-web" href="https://www.food4rhino.com/en/app/decoding-spaces-toolbox" target="_blank">🔗 Decoding Spaces — Food4Rhino Page</a>
+    </div></div>
+
+    <div class="wr" id="wr7_6"><div class="wr-top"><div class="wr-lbl">Wks 37–38</div><div><div class="wr-main">Urban microclimate and outdoor thermal comfort. Use Ladybug's UTCI (Universal Thermal Climate Index) map on a masterplan. Map pedestrian comfort for Mumbai's hottest month (May). Identify which streets and plazas are unbearable and iterate building placement and shade tree coverage to improve scores. Required skill for Indian Smart City and AMRUT project submissions — outdoor comfort is increasingly a deliverable, not optional.</div><div class="wr-tags"><span class="wt">UTCI</span><span class="wt">Outdoor Comfort</span><span class="wt">Ladybug Urban</span><span class="wt">Smart City</span></div><div class="wr-time">⏱ 30 min/day — output: outdoor thermal comfort map for a layout</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_6')" id="chk7_6"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=wGV8rjVMFUg" target="_blank"><span class="r-icon">▶</span> Ladybug Tools — UTCI Outdoor Thermal Comfort Tutorial (Official)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=C1P8tAFK_yM" target="_blank"><span class="r-icon">▶</span> Gediminas — Ladybug Environmental Analysis in GH</a>
+      <a class="rchip rchip-web" href="https://www.ladybug.tools" target="_blank">🔗 Ladybug Tools Official — Outdoor Comfort Docs + Install</a>
+    </div></div>
+
+    <div class="wr" id="wr7_7"><div class="wr-top"><div class="wr-lbl">Wks 39–40</div><div><div class="wr-main">Walkability and amenity catchment mapping. Build a GH definition placing amenities (school, primary health centre, market, park) across a masterplan and calculate 400m (5-min walk) and 800m (10-min walk) catchment zones for each. Visualise underserved areas in red. Cross-reference UDPFI neighbourhood unit hierarchy — primary school within 0.5km, health centre within 1.5km, market within 0.8km. Directly applicable to PMAY housing layouts and township planning.</div><div class="wr-tags"><span class="wt">Walkability</span><span class="wt">Catchment Zones</span><span class="wt">UDPFI</span><span class="wt">PMAY</span><span class="wt">Township</span></div><div class="wr-time">⏱ 30 min/day — output: amenity coverage gap map for a township layout</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_7')" id="chk7_7"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=Og1v3-GIqDE" target="_blank"><span class="r-icon">▶</span> Urbano — Walkability + Catchment Analysis Tutorial</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=aMiLfIdBCUU" target="_blank"><span class="r-icon">▶</span> Parametric House — Urban Analysis: Catchment and Proximity</a>
+      <a class="rchip rchip-pdf" href="https://tcpo.gov.in/sites/default/files/UDPFI%20Guidelines%201996.pdf" target="_blank">📄 UDPFI Guidelines 1996 — GoI (Neighbourhood Unit Standards, Free PDF)</a>
+    </div></div>
+
+    <div class="wr" id="wr7_8"><div class="wr-top"><div class="wr-lbl">Wks 41–42</div><div><div class="wr-main">Generative layout exploration with Wallacei (free — multi-objective evolutionary solver, far more powerful than Galapagos for urban work). Set 3 competing fitness goals: maximise walkability score, maximise open space ratio, minimise road area. Run Wallacei and explore the Pareto front — solutions that are good across all three with different trade-offs. Curate 3 options from the front. Key lesson: computation generates options, design judgment selects from them. The architect's role changes, not disappears.</div><div class="wr-tags"><span class="wt">Wallacei</span><span class="wt">Multi-Objective</span><span class="wt">Pareto Front</span><span class="wt">Generative Urban</span></div><div class="wr-time">⏱ 30 min/day — output: 3 curated masterplan options from Wallacei run</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_8')" id="chk7_8"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=6lR3zZ2X7y4" target="_blank"><span class="r-icon">▶</span> Wallacei — Official Getting Started Tutorial</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=KgHB8RPc01Y" target="_blank"><span class="r-icon">▶</span> Parametric House — Multi-Objective Optimisation in GH</a>
+      <a class="rchip rchip-web" href="https://wallacei.com" target="_blank">🔗 Wallacei — Free Download + Documentation</a>
+      <a class="rchip rchip-web" href="https://www.food4rhino.com/en/app/wallacei" target="_blank">🔗 Wallacei — Food4Rhino Page</a>
+    </div></div>
+
+    <div class="wr" id="wr7_9"><div class="wr-top"><div class="wr-lbl">Wks 43–44</div><div><div class="wr-main">Speckle for collaborative urban design (free, fully open source). Install Speckle Connector for Rhino. Push your GH-baked masterplan model to a live Speckle web viewer. Share a link with consultants or clients — they view it in a browser, no software install needed. Explore embedding Speckle viewers in presentation pages. Urban projects always involve multi-team coordination — parametric data sharing via Speckle replaces repetitive DWG email exchanges and version confusion.</div><div class="wr-tags"><span class="wt">Speckle</span><span class="wt">Collaboration</span><span class="wt">Web Viewer</span><span class="wt">Multi-Team</span><span class="wt">Live Link</span></div><div class="wr-time">⏱ 25 min/day — output: published live model link on Speckle</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_9')" id="chk7_9"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=B4M3y8uJXds" target="_blank"><span class="r-icon">▶</span> Speckle — Getting Started: Rhino + GH to Speckle Web Viewer</a>
+      <a class="rchip rchip-web" href="https://speckle.systems" target="_blank">🔗 Speckle — Free Open Source AEC Collaboration</a>
+      <a class="rchip rchip-web" href="https://github.com/specklesystems" target="_blank">🔗 Speckle GitHub — All Connectors</a>
+    </div></div>
+
+    <div class="wr" id="wr7_10"><div class="wr-top"><div class="wr-lbl">Wks 45–46</div><div><div class="wr-main">Indian development control and RERA compliance checker. Encode Maharashtra DCR rules into GH: minimum corridor width (1.2m), parking (1 per 50 sqm CFA), open space as % of plot, fire tender access (4.5m clearance), maximum building height per zone. Build a definition that flags non-compliance in red GH panels when parameters cross thresholds. This automates what architects currently check manually against a PDF — saves hours per design iteration round.</div><div class="wr-tags"><span class="wt">Maharashtra DCR</span><span class="wt">RERA</span><span class="wt">Compliance Checker</span><span class="wt">Automation</span></div><div class="wr-time">⏱ 30 min/day — output: live GH compliance flag definition</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_10')" id="chk7_10"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=5yKdW93rXLE" target="_blank"><span class="r-icon">▶</span> Gediminas — GhPython Data Logic (conditional flag components)</a>
+      <a class="rchip rchip-web" href="https://mcgm.gov.in/irj/portal/anonymous?NavigationTarget=navurl://6f91d8c0dc69bf8f2ec626b2fbefd481" target="_blank">📄 MCGM Mumbai DCR — Official Regulations</a>
+      <a class="rchip rchip-web" href="https://maharera.mahaonline.gov.in" target="_blank">📄 MahaRERA — Maharashtra RERA Official Portal</a>
+      <a class="rchip rchip-pdf" href="https://tcpo.gov.in/sites/default/files/UDPFI%20Guidelines%201996.pdf" target="_blank">📄 UDPFI Guidelines — GoI (cross-reference for planning standards)</a>
+    </div></div>
+
+    <div class="wr" id="wr7_11"><div class="wr-top"><div class="wr-lbl">Wks 47–48</div><div><div class="wr-main">Urban Design Portfolio Project — parametric masterplan for a 5-hectare mixed-use Indian city site. Integrate all Phase 7 tools in one GH workflow: OSM site import via Elk → street network via Urbano → building massing with FSI calculator → Ladybug UTCI outdoor comfort → walkability catchment → Decoding Spaces visibility → Speckle for publishing. Document with a definition flowchart. Render an aerial via D5 Render or Blender. Compose a 2-page portfolio report.</div><div class="wr-tags"><span class="wt">5-ha Masterplan</span><span class="wt">All Tools Integrated</span><span class="wt">Portfolio</span><span class="wt">Aerial Render</span></div><div class="wr-time">⏱ 30 min/day — deliverable: urban portfolio project, 2-page PDF</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_11')" id="chk7_11"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=DksmgSLtMww" target="_blank"><span class="r-icon">▶</span> Gediminas — Advanced GH 2026 Full Course (integrated definition structure)</a>
+      <a class="rchip rchip-yt" href="https://www.youtube.com/watch?v=1t6BKx_y0wE" target="_blank"><span class="r-icon">▶</span> Gediminas — D5 Render + Rhino Aerial Workflow</a>
+      <a class="rchip rchip-uni" href="https://ocw.tudelft.nl/more/architecture-software/" target="_blank">🎓 TU Delft OCW — Architecture + Urban Software Resources Index</a>
+      <a class="rchip rchip-web" href="https://speckle.systems" target="_blank">🔗 Speckle — Publish portfolio project live</a>
+    </div></div>
+
+    <div class="wr" id="wr7_12"><div class="wr-top"><div class="wr-lbl">Wks 49–50</div><div><div class="wr-main">Reflect, share, and plan Phase 8. Share the urban project on McNeel Forum, LinkedIn, and the Urbano community. Get specific technical feedback. Review all 7 phases — what has fundamentally changed about how you approach a design problem from scratch? Plan your next path: deep C# scripting in GH, Rhino.Inside.Revit for full BIM-parametric fusion in urban projects, machine learning with ShapeDiver, or real GIS analysis in QGIS + Python. You are no longer a beginner — you are a practising computational designer.</div><div class="wr-tags"><span class="wt">Reflection</span><span class="wt">Share Work</span><span class="wt">C# in GH</span><span class="wt">ShapeDiver</span><span class="wt">QGIS Python</span></div><div class="wr-time">⏱ 20 min — reflection + planning session</div></div><div class="wr-chk"><button class="wchk" onclick="chk('7_12')" id="chk7_12"></button></div></div>
+    <div class="wr-res">
+      <a class="rchip rchip-yt" href="https://www.youtube.com/playlist?list=PLuhw3IJ5k9riV6_eIVhUGCr5O9PsHb6lg" target="_blank"><span class="r-icon">▶</span> Gediminas — Full Advanced GH Playlist (everything that comes next)</a>
+      <a class="rchip rchip-web" href="https://developer.rhino3d.com/guides/grasshopper/csharp-essentials/" target="_blank">📄 McNeel — C# Essentials in Grasshopper (Free Guide)</a>
+      <a class="rchip rchip-web" href="https://qgis.org" target="_blank">🔗 QGIS — Free Open Source GIS for deeper urban analysis</a>
+      <a class="rchip rchip-web" href="https://www.shapediver.com" target="_blank">🔗 ShapeDiver — Web parametric viewer, free tier</a>
+      <a class="rchip rchip-web" href="https://discourse.mcneel.com/c/grasshopper/2" target="_blank">💬 McNeel Grasshopper Forum — share final project</a>
+    </div></div>
+
+    <div class="pnote"><div class="pnote-lbl">Phase 7 Notes — Urban Design</div><textarea class="pnote-ta" id="note7" placeholder="Urban analysis insights, Indian planning references, MMRDA / DCR rules to encode, project ideas..." onchange="saveNote(7,this.value)"></textarea></div>
+  </div>
+</div>
+
+</div><!-- /phases -->
+</section>
+
+<footer>
+  <div class="ft-l"><span>// CD.MASTERY</span> — Architect's Personal Learning System<br>100% free resources — Gediminas, TU Delft, McNeel, David Rutten, Ladybug, Speckle</div>
+  <div class="ft-r">Ph.1–6: 26 weeks · Ph.7: +12 weeks<br>15–30 min/day · Progress saved locally in browser</div>
+</footer>
+</main>
+
+<!-- TIMER -->
+<div class="timer">
+  <div class="t-lbl">Session Timer</div>
+  <div class="t-ring">
+    <svg viewBox="0 0 56 56" width="56" height="56">
+      <circle class="t-ring-bg" cx="28" cy="28" r="24"/>
+      <circle class="t-ring-fill" cx="28" cy="28" r="24" id="tArc" style="stroke-dashoffset:151"/>
+    </svg>
+    <div class="t-ring-txt" id="tTxt">—</div>
+  </div>
+  <div class="t-target">Target: 25 min</div>
+  <div class="t-btns">
+    <button class="t-btn prim" id="tBtn" onclick="tAction()">Start</button>
+    <button class="t-btn" onclick="tReset()">Reset</button>
+  </div>
+</div>
+
+<script>
+// -- SUPABASE CONFIG --
+// Paste your Project URL and anon key from supabase.com > Settings > API
+var SUPABASE_URL  = 'https://kbbsqebwscfpxihdedsq.supabase.co';
+var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiYnNxZWJ3c2NmcHhpaGRlZHNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5NTM3NTAsImV4cCI6MjA5NTUyOTc1MH0.LL-zXkqOx27nzLDuT9Mmdk46az-oiELO44cQUR1ZS-E';
+// ---------------------
+
+var CONFIGURED = SUPABASE_URL.indexOf('YOUR_') === -1;
+var sb = null;
+if (CONFIGURED && typeof supabase !== 'undefined') {
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+}
+
+var SK = 'cdm_v3';
+var S  = { checks:{}, notes:{} };
+var currentUser = null;
+var saveTimer   = null;
+
+var PM = {
+  1:['1_1','1_2','1_3','1_4'],
+  2:['2_1','2_2','2_3','2_4'],
+  3:['3_1','3_2','3_3','3_4','3_5'],
+  4:['4_1','4_2','4_3','4_4'],
+  5:['5_1','5_2','5_3','5_4'],
+  6:['6_1','6_2','6_3','6_4','6_5'],
+  7:['7_1','7_2','7_3','7_4','7_5','7_6','7_7','7_8','7_9','7_10','7_11','7_12']
+};
+
+// -- LOCAL STORAGE --
+function loadLocal() {
+  try { var r = localStorage.getItem(SK); if (r) S = JSON.parse(r); } catch(e) {}
+}
+function saveLocal() {
+  try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
+}
+
+// -- SUPABASE DB --
+function loadFromDB(cb) {
+  if (!sb || !currentUser) { cb(false); return; }
+  sb.from('user_progress')
+    .select('checks, notes')
+    .eq('user_id', currentUser.id)
+    .single()
+    .then(function(res) {
+      if (res.data) {
+        S = { checks: res.data.checks || {}, notes: res.data.notes || {} };
+        cb(true);
+      } else { cb(false); }
+    })
+    .catch(function() { cb(false); });
+}
+
+function saveToDB() {
+  saveLocal();
+  if (!sb || !currentUser) return;
+  setSyncDot('saving');
+  sb.from('user_progress')
+    .upsert({ user_id: currentUser.id, checks: S.checks, notes: S.notes, updated_at: new Date().toISOString() }, { onConflict: 'user_id' })
+    .then(function(res) {
+      setSyncDot(res.error ? 'err' : 'ok');
+    })
+    .catch(function() { setSyncDot('err'); });
+}
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToDB, 800);
+}
+
+function setSyncDot(state) {
+  var dot = document.getElementById('syncDot');
+  if (dot) dot.className = 'sync-dot ' + state;
+}
+
+// -- AUTH STATE --
+function initAuth() {
+  if (!CONFIGURED || !sb) {
+    loadLocal();
+    applyNotesToUI();
+    render();
+    return;
+  }
+  sb.auth.getSession().then(function(res) {
+    var session = res.data && res.data.session;
+    if (session && session.user) {
+      onSignedIn(session.user, false);
+    } else {
+      loadLocal();
+      applyNotesToUI();
+      render();
+      showAuth();
+    }
+  });
+  sb.auth.onAuthStateChange(function(event, session) {
+    if (event === 'SIGNED_IN' && session && session.user) {
+      onSignedIn(session.user, true);
+    } else if (event === 'SIGNED_OUT') {
+      onSignedOut();
+    }
+  });
+}
+
+function onSignedIn(user, freshLogin) {
+  currentUser = user;
+  updateNavAuth(user);
+  hideAuth();
+  loadFromDB(function(loaded) {
+    if (!loaded) loadLocal();
+    applyNotesToUI();
+    render();
+    setSyncDot('ok');
+    if (freshLogin) showToast('Signed in - progress synced');
+  });
+}
+
+function onSignedOut() {
+  currentUser = null;
+  updateNavAuth(null);
+  loadLocal();
+  applyNotesToUI();
+  render();
+}
+
+function updateNavAuth(user) {
+  var el = document.getElementById('navAuth');
+  if (!el) return;
+  if (user) {
+    el.innerHTML =
+      '<div class="nav-sync"><div class="sync-dot ok" id="syncDot"></div><span>sync</span></div>' +
+      '<div class="nav-user">' + user.email + '</div>' +
+      '<button class="nav-signout" onclick="signOut()">Sign Out</button>';
+  } else {
+    el.innerHTML = '<button class="nav-signin-btn" onclick="showAuth()">Sign In</button>';
+  }
+}
+
+// -- AUTH ACTIONS --
+var authMode = 'signin';
+
+function switchTab(mode) {
+  authMode = mode;
+  var ts = document.getElementById('tabSign');
+  var tr = document.getElementById('tabReg');
+  var sb_el = document.getElementById('authSubmit');
+  var pp = document.getElementById('authPass');
+  if (ts) ts.classList.toggle('active', mode === 'signin');
+  if (tr) tr.classList.toggle('active', mode === 'signup');
+  if (sb_el) sb_el.textContent = mode === 'signin' ? 'Sign In' : 'Create Account';
+  if (pp) pp.placeholder = mode === 'signin' ? 'Your password' : 'Min. 6 characters';
+  setAuthMsg('', '');
+}
+
+function setAuthMsg(type, msg) {
+  var el = document.getElementById('authMsg');
+  if (!el) return;
+  el.className = 'auth-msg' + (type ? ' ' + type : '');
+  el.textContent = msg;
+}
+
+function authAction() {
+  if (!sb) return;
+  var email = document.getElementById('authEmail').value.trim();
+  var pass  = document.getElementById('authPass').value;
+  if (!email || !pass) { setAuthMsg('err', 'Email and password required.'); return; }
+  var btn = document.getElementById('authSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Please wait...';
+  setAuthMsg('', '');
+  var promise = authMode === 'signin'
+    ? sb.auth.signInWithPassword({ email: email, password: pass })
+    : sb.auth.signUp({ email: email, password: pass });
+  promise.then(function(res) {
+    if (res.error) {
+      setAuthMsg('err', res.error.message);
+      btn.disabled = false;
+      btn.textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+    } else if (authMode === 'signup' && !res.data.session) {
+      setAuthMsg('ok', 'Check your email to confirm, then sign in.');
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+    }
+  }).catch(function(e) {
+    setAuthMsg('err', 'Something went wrong. Try again.');
+    btn.disabled = false;
+    btn.textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+  });
+}
+
+function sendMagicLink() {
+  if (!sb) return;
+  var email = document.getElementById('authEmail').value.trim();
+  if (!email) { setAuthMsg('err', 'Enter your email first.'); return; }
+  setAuthMsg('', '');
+  sb.auth.signInWithOtp({ email: email }).then(function(res) {
+    if (res.error) setAuthMsg('err', res.error.message);
+    else setAuthMsg('ok', 'Magic link sent - check your inbox.');
+  });
+}
+
+function signOut() {
+  if (sb) sb.auth.signOut();
+}
+
+function showAuth() {
+  var el = document.getElementById('authOverlay');
+  if (el) el.classList.add('show');
+}
+function hideAuth() {
+  var el = document.getElementById('authOverlay');
+  if (el) el.classList.remove('show');
+}
+function skipAuth() {
+  hideAuth();
+  loadLocal();
+  applyNotesToUI();
+  render();
+}
+
+// -- NOTES --
+function applyNotesToUI() {
+  for (var p = 1; p <= 7; p++) {
+    var el = document.getElementById('note' + p);
+    if (el && S.notes[p]) el.value = S.notes[p];
+  }
+}
+function saveNote(p, v) {
+  S.notes[p] = v;
+  scheduleSave();
+}
+
+// -- CHECKBOXES --
+function chk(id) {
+  S.checks[id] = !S.checks[id];
+  render();
+  scheduleSave();
+}
+
+// -- RENDER PROGRESS --
+function render() {
+  var tA = 0, dA = 0;
+  var phases = Object.keys(PM);
+  for (var i = 0; i < phases.length; i++) {
+    var p = phases[i];
+    var ids = PM[p];
+    var d = 0;
+    for (var j = 0; j < ids.length; j++) {
+      var id = ids[j];
+      var btn = document.getElementById('chk' + id);
+      var row = document.getElementById('wr' + id);
+      if (btn) {
+        var c = !!S.checks[id];
+        if (c) btn.classList.add('chkd'); else btn.classList.remove('chkd');
+        if (row) { if (c) row.classList.add('done'); else row.classList.remove('done'); }
+        if (c) d++;
+      }
+    }
+    var cc = document.getElementById('cc' + p);
+    if (cc) cc.textContent = d + '/' + ids.length;
+    var ob = document.getElementById('ob' + p);
+    if (ob) ob.style.width = (ids.length ? (d / ids.length * 100) : 0) + '%';
+    tA += ids.length;
+    dA += d;
+  }
+  var pct = tA ? Math.round(dA / tA * 100) : 0;
+  var npf = document.getElementById('npf'); if (npf) npf.style.width = pct + '%';
+  var npp = document.getElementById('npp'); if (npp) npp.textContent = pct + '%';
+  var hp  = document.getElementById('hpct'); if (hp) hp.innerHTML = pct + '<span>%</span>';
+}
+
+// -- TOAST --
+function showToast(msg) {
+  var t = document.getElementById('cdToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'cdToast';
+    t.style.cssText = 'position:fixed;bottom:90px;right:20px;z-index:500;background:var(--bg2);border:1px solid rgba(142,207,106,.3);border-radius:6px;padding:9px 16px;font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.04em;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:opacity .4s;pointer-events:none';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(function() { t.style.opacity = '0'; }, 3000);
+}
+
+// -- PHASE TOGGLE & SCROLL --
+function tog(head) { head.parentElement.classList.toggle('open'); }
+function goTo(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+
+// -- TIMER --
+var tI = null, tS = 0, tR = false;
+var TG = 25 * 60;
+function tAction() {
+  var btn = document.getElementById('tBtn');
+  if (!tR) {
+    tR = true;
+    if (btn) btn.textContent = 'Pause';
+    tI = setInterval(function() { tS++; tRender(); }, 1000);
+  } else {
+    tR = false;
+    if (btn) btn.textContent = 'Resume';
+    clearInterval(tI);
+  }
+}
+function tReset() {
+  clearInterval(tI);
+  tR = false; tS = 0;
+  var b = document.getElementById('tBtn');
+  if (b) b.textContent = 'Start';
+  tRender();
+}
+function tRender() {
+  var m = Math.floor(tS / 60), s = tS % 60;
+  var el = document.getElementById('tTxt');
+  if (el) el.textContent = tS === 0 ? '--' : (String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'));
+  var arc = document.getElementById('tArc');
+  if (arc) arc.style.strokeDashoffset = 151 - (Math.min(tS / TG, 1) * 151);
+}
+
+// -- SCROLL FADE --
+if (typeof IntersectionObserver !== 'undefined') {
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.fin').forEach(function(el) { obs.observe(el); });
+}
+
+// -- BOOT --
+initAuth();
+</script>
+</body>
+</html>
