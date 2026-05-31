@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://computationaldesign-mastery.netlify.app/sitemap.xml
